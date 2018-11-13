@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.CRUDMapper">
+
+
+    <select id="getAllDbcenterSequence" resultType="com.example.demo.entity.DbcenterSequence">
+SELECT ID
+	"UUID",
+	seq_name,
+	seq_desc,
+	cur_val
+FROM
+	dbms_random.dbcenter_sequence
+	LIMIT #{size} OFFSET ( #{page} - 1 ) * #{size};
+    </select>
+
+    <insert id="insertData" parameterType="com.example.demo.entity.DbcenterSequence">
+INSERT INTO dbms_random.dbcenter_sequence(id,seq_name,seq_Desc,cur_val)
+VALUES
+( uuid_generate_v4(), #{seqName}, #{seqDesc},#{curVal} );
+
+    </insert>
+
+    <update id="updateData" parameterType="com.example.demo.entity.DbcenterSequence">
+UPDATE dbms_random.dbcenter_sequence
+SET seq_name = #{seqName},
+seq_desc = #{seqDesc},
+cur_val = #{curVal}
+WHERE
+	id =cast(#{UUID} as UUID);
+</update>
+
+    <delete id="deleteData" parameterType="String">
+	DELETE FROM dbms_random.dbcenter_sequence  WHERE ID = cast(#{UUID} as UUID);
+    </delete>
+
+    <select id="searchDesc" parameterType="String" resultType="com.example.demo.entity.DbcenterSequence" >
+SELECT
+	ID "UUID",
+	seq_name,
+	seq_desc,
+	cur_val
+FROM
+	dbms_random.dbcenter_sequence
+WHERE
+	to_tsvector( 'parser_name', seq_desc ) @@to_tsquery( 'parser_name', #{desc} );
+
+    </select>
+
+</mapper>

@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: crud
+  datasource:
+    url: jdbc:postgresql://${spring.datasource.ip}:${spring.datasource.port}/${spring.datasource.database}?allowMultiQueries=true&autoReconnect=true
+    username: ${spring.username}
+    password: ${spring.password}
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    # 配置config，获取spring cloud config 的配置信息并应用到此配置中
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      profile: dev
+server:
+  port: 7777
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:dhhsh@${eureka.instance.hostname}:8761/eureka/
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
+---
+
+#swagger:
+#  global-operation-parameters[1]:
+#    modelRef: int
+#    parameterType: header
+#    name: timestamp
+#    description: access timestamp
+#    required: false
+#  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
+#  license: Apache License, Version 2.0
+#  termsOfServiceUrl: https://github.com/dyc87112/spring-boot-starter-swagger
+#  global-operation-parameters[0]:
+#    modelRef: string
+#    parameterType: header
+#    name: access_token
+#    description: user access token
+#    required: true
+#  contact:
+#    name: didi
+#    url: http://blog.didispace.com
+#    email: dyc87112@qq.com
+#  apply-default-response-messages: true
+#  description: Starter for swagger 2.x
+#  global-response-message:
+#    get[1]:
+#      modelRef: ERROR
+#      code: 500
+#      message: 500get
+#    get[0]:
+#      code: 401
+#      message: 401get
+#  base-package: com.didispace
+#  title: spring-boot-starter-swagger
+#  version: 1.1.0.RELEASE
+#

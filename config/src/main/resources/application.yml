@@ -1,0 +1,20 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:config/
+          #./config/   jar包所在目录的config文件夹下的配置文件
+          #classpath:config/   classpath下的config文件夹下的配置文件
+eureka:
+  instance:
+    hostname: 127.0.0.1
+  client:
+    serviceUrl:
+      defaultZone: http://admin:dhhsh@${eureka.instance.hostname}:8761/eureka/
